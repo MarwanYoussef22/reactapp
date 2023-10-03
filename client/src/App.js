@@ -1,11 +1,13 @@
 
 import './App.css';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function App() {
 
-  let characters = [];
+
   let matchingCharacters = [];
-  const charactersList = document.querySelector("#charactersList")
+  const [characters, setCharacters] = document.querySelector("#charactersList")
 
   document.addEventListener('DOMContentLoaded', getCharacters)
 
@@ -31,17 +33,17 @@ function App() {
     renderCharacters(matchingCharacters);
   }
 
-  const renderCharacters = characters => {
-    const divs = characters.map(character => {
-      const el = document.createElement('div');
-      el.addEventListener('click', () => goToCharacterPage(character.id));
-      el.textContent = character.name;
-      return el;
-    })
-    charactersList.replaceChildren(...divs)
-  }
+  // const renderCharacters = characters => {
+  //   const divs = characters.map(character => {
+  //     const el = document.createElement('div');
+  //     el.addEventListener('click', () => goToCharacterPage(character.id));
+  //     el.textContent = character.name;
+  //     return el;
+  //   })
+  //   charactersList.replaceChildren(...divs)
+  // }
 
-  const goToCharacterPage = id => window.location = `/character.html?id=${id}`
+ // const goToCharacterPage = id => window.location = `/character.html?id=${id}`
   return (
     <div className="App">
       <body>
@@ -52,6 +54,13 @@ function App() {
           <input id="searchString" oninput="filterCharacters()" autocomplete="off" />
         </div>
         <section id="charactersList">
+          {characters.map((character) => (
+            <Link key={character.id} to={'/character/${character.id}'}>
+              <div className="character"> {character.name}
+
+              </div>
+            </Link>
+          ))}
         </section>
       </body>
     </div>
