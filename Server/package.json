@@ -1,0 +1,23 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarwanYoussef22/reactapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarwanYoussef22/reactapp/issues"
+  },
+  "homepage": "https://github.com/MarwanYoussef22/reactapp#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
