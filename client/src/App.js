@@ -1,23 +1,59 @@
-import logo from './logo.svg';
+
 import './App.css';
 
 function App() {
+
+  let characters = [];
+  let matchingCharacters = [];
+  const charactersList = document.querySelector("#charactersList")
+
+  document.addEventListener('DOMContentLoaded', getCharacters)
+
+  async function getCharacters() {
+    let url = 'https://swapi2.azurewebsites.net/api/characters';
+
+    try {
+      const fetchedCharacters = await fetch(url)
+        .then(res => res.json())
+      characters.push(...fetchedCharacters);
+    }
+    catch (ex) {
+      console.error("Error reading characters.", ex.message);
+    }
+    console.log("All the characters are ", characters)
+    renderCharacters(characters);
+  }
+
+  const filterCharacters = () => {
+    const searchString = document.querySelector("#searchString").value;
+    const re = new RegExp(searchString, "i");
+    matchingCharacters = characters.filter(character => re.test(character.name))
+    renderCharacters(matchingCharacters);
+  }
+
+  const renderCharacters = characters => {
+    const divs = characters.map(character => {
+      const el = document.createElement('div');
+      el.addEventListener('click', () => goToCharacterPage(character.id));
+      el.textContent = character.name;
+      return el;
+    })
+    charactersList.replaceChildren(...divs)
+  }
+
+  const goToCharacterPage = id => window.location = `/character.html?id=${id}`
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <body>
+        <div>
+          <h1>Star Wars Universe Lookup</h1>
+          <label for="searchString">Who you looking for? <span class="small">(Regular expressions are cool
+            here)</span></label>
+          <input id="searchString" oninput="filterCharacters()" autocomplete="off" />
+        </div>
+        <section id="charactersList">
+        </section>
+      </body>
     </div>
   );
 }
